@@ -31,10 +31,9 @@
 - **SM Instagram** — post, stories, reels
 - **Influencers** — stories, reels, TikTok
 - **Popular Telegram channels** — пости *(if possible)*
-- **Ride Hailing app banner** *(if possible)*
 - **PR communication** — реліз у медіа (1–2 онлайн-видання)
 
-> 💰 **Орієнтовний бюджет маркетингової підтримки з боку Bolt Food: ~350–400 тис. грн.**
+> 💰 **Орієнтовний бюджет маркетингової підтримки з боку Bolt Food: ~10K EUR (≈500 тис. грн) — програма-мінімум.**
 
 > В обмін на цю промо-підтримку VARUS покриває безкоштовну доставку для клієнтів на 2 тижні.
 

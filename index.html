@@ -39,6 +39,10 @@
   .deadline{background:#ffeceb;border:1px solid #ffc9c4;border-radius:12px;padding:12px 14px;margin:12px 0;font-weight:600;color:#b3261e;}
   .footer{color:var(--muted);font-size:12px;margin-top:26px;}
   .pill{display:inline-block;background:var(--accent);color:var(--brand2);border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;}
+  .help{font-size:13px;color:var(--muted);background:#eef4ff;border:1px solid #d4e2ff;border-radius:10px;padding:10px 12px;margin:0 0 16px;}
+  .help b{color:var(--ink);}
+  a.btn{text-decoration:none;}
+  @media print{.toolbar,.help{display:none;}}
 </style>
 </head>
 <body>
@@ -46,9 +50,15 @@
 
   <div class="toolbar">
     <button class="btn btn-primary" onclick="exportToGoogleDoc()">📄 Експортувати в Google Doc</button>
-    <button class="btn btn-secondary" onclick="downloadDoc()">⬇️ Завантажити .doc</button>
+    <a class="btn btn-secondary" href="https://docs.google.com/document/u/0/" target="_blank" rel="noopener">↗ Відкрити Google Docs</a>
+    <button class="btn btn-secondary" onclick="copyForDoc()">📋 Скопіювати для вставки</button>
     <button class="btn btn-secondary" onclick="window.print()">🖨️ Друк / PDF</button>
   </div>
+  <p class="help">
+    <b>Як вигрузити в Google Doc:</b><br>
+    <b>Варіант 1 (файл):</b> натисніть <b>«Експортувати в Google Doc»</b> → завантажиться файл → відкрийте <b>drive.google.com</b>, перетягніть файл → правий клік → <b>«Відкрити за допомогою → Google Документи»</b> (Google автоматично конвертує).<br>
+    <b>Варіант 2 (копіювати):</b> натисніть <b>«Скопіювати для вставки»</b>, далі <b>«Відкрити Google Docs»</b> → новий документ → <b>Cmd+V (Ctrl+V)</b>.
+  </p>
 
   <div class="report" id="report">
     <h1>VARUS × Bolt Food — Public Launch</h1>
@@ -213,24 +223,7 @@
 </div>
 
 <script>
-function exportToGoogleDoc(){
-  var el = document.getElementById('report');
-  var range = document.createRange();
-  range.selectNode(el);
-  var sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
-  var ok = false;
-  try { ok = document.execCommand('copy'); } catch(e){ ok = false; }
-  sel.removeAllRanges();
-  window.open('https://docs.google.com/document/create', '_blank');
-  if(ok){
-    alert('Звіт скопійовано в буфер обміну.\nУ новій вкладці відкрито порожній Google Doc — натисніть Cmd+V (Ctrl+V), щоб вставити з форматуванням.');
-  } else {
-    alert('Відкрито новий Google Doc. Якщо вставка не спрацювала — скористайтесь кнопкою "Завантажити .doc" і завантажте файл у Google Drive.');
-  }
-}
-function downloadDoc(){
+function downloadDocFile(){
   var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>VARUS Public Launch ROMI</title></head><body>";
   var footer = "</body></html>";
   var html = header + document.getElementById('report').innerHTML + footer;
@@ -242,7 +235,41 @@ function downloadDoc(){
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1500);
+}
+function exportToGoogleDoc(){
+  downloadDocFile();
+  setTimeout(function(){
+    alert('Файл «VARUS_Public_Launch_ROMI.doc» завантажено.\n\nЩоб отримати Google Doc:\n1. Відкрийте drive.google.com\n2. Перетягніть туди завантажений файл\n3. Правий клік на файлі → «Відкрити за допомогою → Google Документи»\n\nGoogle автоматично конвертує його у редагований Google Doc.');
+    window.open('https://drive.google.com/drive/my-drive', '_blank');
+  }, 300);
+}
+function copyForDoc(){
+  var el = document.getElementById('report');
+  var html = el.innerHTML;
+  if(navigator.clipboard && window.ClipboardItem){
+    var item = new ClipboardItem({
+      'text/html': new Blob([html], {type:'text/html'}),
+      'text/plain': new Blob([el.innerText], {type:'text/plain'})
+    });
+    navigator.clipboard.write([item]).then(function(){
+      alert('Звіт скопійовано з форматуванням.\nВідкрийте Google Doc і натисніть Cmd+V (Ctrl+V).');
+    }).catch(function(){ legacyCopy(el); });
+  } else {
+    legacyCopy(el);
+  }
+}
+function legacyCopy(el){
+  var range = document.createRange();
+  range.selectNode(el);
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e){ ok = false; }
+  sel.removeAllRanges();
+  alert(ok ? 'Звіт скопійовано.\nВідкрийте Google Doc і натисніть Cmd+V (Ctrl+V).'
+           : 'Не вдалося скопіювати автоматично. Скористайтесь кнопкою «Експортувати в Google Doc» (через файл).');
 }
 </script>
 </body>

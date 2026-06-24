@@ -27,12 +27,16 @@
 Підтримка, яку отримує VARUS у межах public launch:
 
 - **SM online marketing** — push app notification, in-app modal
+- **Email** — розсилка по базі **Bolt Food та Ride Hailing**
 - **SM Instagram** — post, stories, reels
+- **Influencers** — stories, reels, TikTok
 - **Popular Telegram channels** — пости *(if possible)*
 - **Ride Hailing app banner** *(if possible)*
-- **PR communication**
+- **PR communication** — реліз у медіа (1–2 онлайн-видання)
 
-> В обмін на цю промо-підтримку VARUS оплачує безкоштовну доставку для клієнтів на 2 тижні (100 грн/замовлення).
+> 💰 **Орієнтовний бюджет маркетингової підтримки з боку Bolt Food: ~350–400 тис. грн.**
+
+> В обмін на цю промо-підтримку VARUS покриває безкоштовну доставку для клієнтів на 2 тижні.
 
 ---
 
